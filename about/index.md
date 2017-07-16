@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About Me
-tags: [about, Jekyll, theme, moon]
+tags: [about, Jekyll, theme, moon, record, study]
 date: 2017-07-15
 comments: true
 ---
