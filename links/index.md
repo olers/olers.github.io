@@ -16,3 +16,5 @@ comments: true
 [白&夜](http://www.cnblogs.com/whitenight/):机房00后大妈(1900年)
 
 [JustPenz233](http://blog.csdn.net/justpenz233):7-8那小子→.→
+
+[金企鹅](http://oi.self-jqe.win/):和本蒟蒻名字相同的大佬%%% (跟大佬同名真是对不起了233)
