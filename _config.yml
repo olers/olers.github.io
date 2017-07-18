@@ -1,7 +1,7 @@
 # Site
 title:              soler
 bio:                '<font face="黑体">十年一刻</font>'
-description:        "还是你在日往月至中早已荒芜了青春"
+description:        "<font face="黑体">还是你在日往月至中早已荒芜了青春</font>"
 reading_time:       true
 words_per_minute:   200
 logo:               'assets/img/logo.png'
