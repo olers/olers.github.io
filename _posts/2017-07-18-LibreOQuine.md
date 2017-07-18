@@ -26,10 +26,73 @@ comments: true
 
 ```cpp
 #include <cstdio>
+#include <cstring>
+#include <algorithm>
 
-const char *s = "#include <cstdio>%c%cconst char *s = %c%s%c;%c%cint main() {%cprintf(s, 10, 10, 34, s, 34, 10, 10, 10, 10);%c%}";
+#define MAXN 300
+
+char c[MAXN][MAXN];
+int n, ans, m;
+int l[MAXN][MAXN];
 
 int main() {
-printf(s, 10, 10, 34, s, 34, 10, 10, 10, 10);
+    // freopen("1.in", "r", stdin);
+    // freopen("1.out", "w", stdout);
+    scanf("%d%d", &n, &m);
+    for(int i = 1; i <= n; i++) {
+        int tmp = 0;
+        while(tmp < m) {
+            char ch = getchar();
+            while(ch != '.' && ch != '*') ch = getchar();
+            tmp++;
+            c[i][tmp] = ch;
+        }
+    }
+    // for(int i = 1; i <= n; i++) {
+    //     for(int j = 1; j <= m; j++) {
+    //
+    //         printf("%c", c[i][j]);
+    //     }
+    // }
+    // printf("c[%d][%d] = %c \n", i, m, c[i][m]);
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= m; j++) {
+            if(c[i][j] == '*') continue;
+            l[i][j] = j;
+            if(c[i][j - 1] == '.' && j - 1 > 0) l[i][j] = l[i][j - 1];
+            // printf("l[%d][%d] = %d\n", i, j, l[i][j]);
+        }
+
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= m; j++) {
+            if(c[i][j] == '*') continue;
+            int tmp = l[i][j];
+            for(int k = i; k; k--) {
+                if(c[k][j] == '*') break;
+                tmp = std::max(tmp, l[k][j]);
+                ans += j - tmp + 1;
+            }
+        }
+    }
+    printf("%d\n", ans);
+    return 0;
 }
+/*
+6
+WWWW*B
+WBBBBB
+WBWWBB
+WBBBBB
+WWWBBB
+WBBBBB
+
+6 4
+....
+.***
+.*..
+.***
+...*
+.***
+*/
+
 ```
