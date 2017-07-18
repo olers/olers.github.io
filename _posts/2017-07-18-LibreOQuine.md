@@ -3,7 +3,7 @@ layout: post
 title: "LibreOJ#4. Quine"
 date: 2017-07-18
 excerpt: "Orz"
-tags: [study, 题解, LibreOJ]
+tags: [study, Solution, LibreOJ]
 comments: true
 ---
 
