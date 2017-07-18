@@ -3,7 +3,7 @@ layout: post
 title: "LibreOJQuine"
 date: 2017-07-18
 excerpt: "Orz"
-tags: [study]
+tags: [study, Solution, LibreOJ]
 comments: true
 ---
 
@@ -25,12 +25,6 @@ comments: true
 >**这题...恩 看程序吧**
 
 ```cpp
-#include <cstdio>
 
-const char *s = "#include <cstdio>%c%cconst char *s = %c%s%c;%c%cint main() {%cprintf(s, 10, 10, 34, s, 34, 10, 10, 10, 10);%c}";
-
-int main() {
-printf(s, 10, 10, 34, s, 34, 10, 10, 10, 10);
-}
 
 ```
