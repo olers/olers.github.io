@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "LibreOJ#4. Quine"
+title: "LibreOJQuine"
 date: 2017-07-18
 excerpt: "Orz"
-tags: [study, Solution, LibreOJ]
+tags: [study]
 comments: true
 ---
 
