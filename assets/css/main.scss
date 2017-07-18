@@ -25,3 +25,9 @@ sitemap: false
 @import "vendor/animate";
 @import "vendor/magnific-popup/magnific-popup";
 @import "print"
+
+//Links' fonts
+a:link {
+    color: #e42b2b;
+    font-family: 黑体;
+}
