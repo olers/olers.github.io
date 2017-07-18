@@ -27,7 +27,7 @@ comments: true
 ```cpp
 #include <cstdio>
 
-const char *s = "#include <cstdio>%c%cconst char *s = %c%s%c;%c%cint main() {%cprintf(s, 10, 10, 34, s, 34, 10, 10, 10, 10);%c}";
+const char *s = "#include <cstdio>%c%cconst char *s = %c%s%c;%c%cint main() {%cprintf(s, 10, 10, 34, s, 34, 10, 10, 10, 10);%c%}";
 
 int main() {
 printf(s, 10, 10, 34, s, 34, 10, 10, 10, 10);
