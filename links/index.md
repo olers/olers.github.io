@@ -20,4 +20,4 @@ comments: true
 
 [金企鹅](http://oi.self-jqe.win/)<font face="黑体">:和本蒟蒻名字相同的大佬%%% (跟大佬同名真是对不起了233)</font>
 
-[NYWKLL](http://mywkll.com/):<font face="黑体">:blog做的很棒的南方大佬%%%</font>
+[MYWKLL](http://mywkll.com/):<font face="黑体">:blog做的很棒的南方大佬%%%</font>
