@@ -1,0 +1,173 @@
+# (模拟赛T3)杀毒之战
+
+
+
+## Solution：并查集 + 贪心
+
+#### 此题和昨天的`T2`很像。
+
+[昨天 T2 Soltuion 传送门](https://www.zybuluo.com/winee/note/827957)
+
+## 杀软的类型是没有任何影响的
+
+可以实际打个草稿操作一下
+
+如果不同的两个杀软有交叉，那么一定是 `一个包含另一个` 或者 `互相包含(全等)` 的情况， 此情况下， 选了大的，就没有必要选小的， 若选了小的说明 大的不优(下面的贪心策略)。 
+
+**因此类型无关紧要**
+
+## 贪心及并查集
+
+由昨天`经验`和题目可得：一个杀毒软件可以到达的联通块，一个体积小于它的杀毒软件也可以到达。
+
+所以，按边的容积从大到小排序，并按杀软的体积从大到小排序。
+
+然后枚举杀软，同时利用并查集进行`合并`操作，使得每一个联通块是某一个初始位置在其中一个节点上的病毒能到达的最大范围即为此联通块。
+
+接着就可以利用此联通块，用数组记录一下每个联通块因使用各种杀软的总支出，再记录一下每个联通块未被杀的病毒造成的总损失。
+
+对于此杀软及其对应的联通块：
+
+- 若使用此杀软，则此联通块总费用(支出和损失)即为此杀软的支出。
+- 若不使用，则总费用不变。
+
+**贪心策略：比较两者代价做舍取并更新即可**
+
+```cpp
+#include <cstdio>
+#include <algorithm>
+
+typedef long long LL;
+
+#define MAXN 300000
+
+int n, m, q;
+int pos[MAXN], w[MAXN], v[MAXN], id[MAXN], fa[MAXN];
+bool p[MAXN];
+LL a[MAXN], ans, s[MAXN], c[MAXN];
+// s[i] 并查集中联通块i的使用各种杀软的总支出
+// c[i] 并查集中联通块i的各种未被清除的病毒的总损失
+
+#define BUFSIZE 300000
+namespace fib {char b[BUFSIZE]={},*f=b;}
+#define gc ((*fib::f)?(*(fib::f++)):(fgets(fib::b,sizeof(fib::b),stdin)?(fib::f=fib::b,*(fib::f++)):-1))
+void read(int &tmp) {
+    tmp=0; bool fu=0; char s;
+    while(s=gc,s!='-'&&(s<'0'||s>'9')) ;
+    if(s=='-') fu=1; else tmp=s-'0';
+    while(s=gc,s>='0'&&s<='9') tmp=tmp*10+s-'0';
+    if(fu) tmp =  -tmp; 
+}
+void read(LL &tmp) {
+    tmp=0; bool fu=0; char s;
+    while(s=gc,s!='-'&&(s<'0'||s>'9')) ;
+    if(s=='-') fu=1; else tmp=s-'0';
+    while(s=gc,s>='0'&&s<='9') tmp=tmp*10+s-'0';
+    if(fu) tmp =  -tmp; 
+}
+namespace fob {char b[BUFSIZE]={},*f=b,*g=b+BUFSIZE-2;}
+#define pob (fwrite(fob::b,sizeof(char),fob::f-fob::b,stdout),fob::f=fob::b,0)
+#define pc(x) (*(fob::f++)=(x),(fob::f==fob::g)?pob:0)
+struct foce {~foce() {pob; fflush(stdout);}} _foce;
+namespace ib {char b[100];}
+inline void pint(LL x) {
+    if(x==0) {pc(48); return;}
+    if(x<0) {pc('-'); x=-x;}
+    char *s=ib::b;
+    while(x) *(++s)=x%10, x/=10;
+    while(s!=ib::b) pc((*(s--))+48);
+}
+
+struct data {
+	int x, y, z;
+	bool operator < (const data &xx) const {
+		return z > xx.z;
+	}
+}ha[MAXN];
+
+int cmp(int x, int y) {
+	return w[x] > w[y];
+}
+
+int father(int x) {
+	return fa[x] == x ? x : fa[x] = father(fa[x]);
+}
+
+int main() {
+	freopen("virus.in", "r", stdin);
+	freopen("virus.out", "w", stdout);
+//	scanf("%d%d%d", &n, &m, &q);
+	read(n); read(m); read(q);
+	for(int i = 1; i <= n; i++) read(a[i]), fa[i] = i, ans += a[i], c[i] = a[i];
+	for(int i = 1; i <= m; i++) read(ha[i].x), read(ha[i].y), read(ha[i].z);
+	for(int i = 1, x; i <= q; i++) read(pos[i]), read(w[i]), read(v[i]), read(x), id[i] = i, p[i] = x;
+	
+	std::sort(ha + 1, ha + 1 + m);
+//	for(int i = 1; i <= m; i++) printf(">>> adsfad %d %d %d\n", ha[i].x, ha[i].y, ha[i].z);
+	std::sort(id + 1, id + 1 + q, cmp);
+	int P = 1;
+	for(int ii = 1; ii <= q; ii++) {
+		int i = id[ii];
+		while(P <= m && ha[P].z >= w[i]) {
+			int fax = father(ha[P].x), fay =father(ha[P].y);
+			P++;
+			if(fax == fay) continue;
+			fa[fax] = fay;
+//			sum[fay] += sum[fax];
+			c[fay] += c[fax];
+			c[fax] = 0;
+			s[fay] += s[fax];
+			s[fax] = 0;
+//			sum[fax] = 0;
+		}
+		int now = father(pos[i]);
+		if(!s[now] && v[i] < c[now]) {
+			s[now] = v[i];
+//			printf("%lld %lld >> \n", sum[now], c[now]);
+			ans += v[i];
+			ans -= c[now];
+			c[now] = 0;
+		} else if(s[now] + c[now] > v[i]) {
+			ans -= s[now];
+			ans += v[i];
+			s[now] = v[i];
+			ans -= c[now];
+			c[now] = 0;
+		}
+//		printf("?>>>   %d  v[i] = %d   %d    sum[now] = %lld  now = %d s[now] = %lld  %lld \n", i, v[i], w[i], sum[now], now, s[now], ans);
+	}
+//	printf("%lld\n", ans);
+	pint(ans);
+	return 0;
+	return 0;
+}
+/*
+5 8 6
+5 7 5 5 5
+
+1 2 8
+4 5 9
+2 2 5
+3 4 5
+5 5 3
+1 5 6
+1 2 7
+4 5 4
+
+3 8 2 0
+5 7 1 0
+4 6 3 0
+1 8 6 0
+5 3 7 0
+4 7 2 0
+
+5 5 3
+4 5 4
+2 2 5
+3 4 5
+1 5 6
+1 2 7
+1 2 8
+4 5 9
+*/
+```
