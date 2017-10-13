@@ -1,6 +1,11 @@
+layout: post
+title: "(模拟赛T3)杀毒之战"
+date: 2017-10-13
+excerpt: "OI划水记录"
+tags: [record, Solution, 贪心, 并查集]
+comments: true
+
 # (模拟赛T3)杀毒之战
-
-
 
 ## Solution：并查集 + 贪心
 
